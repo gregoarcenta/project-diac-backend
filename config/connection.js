@@ -1,7 +1,13 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config()
 
-const db = new Sequelize('diac', 'root', '', {
-    host: 'localhost',
+const dbName = process.env.DB_NAME
+const dbHost = process.env.DB_HOST
+const dbUser = process.env.DB_USER
+const dbPass = process.env.DB_PASS
+
+const db = new Sequelize(dbName, dbUser, dbPass, {
+    host: dbHost,
     port: 3306,
     dialect: 'mysql',
 });
