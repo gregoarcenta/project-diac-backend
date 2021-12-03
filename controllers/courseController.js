@@ -3,10 +3,15 @@ const { Destreza } = require('../models/Destreza')
 const { Objective } = require('../models/Objective')
 
 const index = async (req, res) => {
-    const courses = await Course.findAll({ include: [Destreza, Objective] })
-    res.json({
-        courses
-    })
+    try {
+        const courses = await Course.findAll({ include: [Destreza, Objective] })
+        res.json({
+            courses
+        })
+    } catch (error) {
+        throw new Error(error)
+    }
+
 }
 
 const create = async (req, res) => {
