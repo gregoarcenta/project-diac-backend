@@ -3,7 +3,7 @@ const { db } = require('../config/connection');
 const { Course } = require("./Course");
 
 
-const Destreza = db.define('Destreza', {
+const Objective = db.define('Objective', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -14,12 +14,12 @@ const Destreza = db.define('Destreza', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    nameDestreza: {
+    nameObjective: {
         type: DataTypes.STRING,
         allowNull: false
     }
 })
 
 module.exports = {
-    Destreza
+    Objective
 }

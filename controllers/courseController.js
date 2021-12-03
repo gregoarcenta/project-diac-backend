@@ -1,23 +1,27 @@
-const { Destreza } = require('../models/Destreza.js')
+const { Course } = require('../models/Course')
+const { Destreza } = require('../models/Destreza')
+const { Objective } = require('../models/Objective')
+
+const index = async (req, res) => {
+    const courses = await Course.findAll({ include: [Destreza, Objective] })
+    res.json({
+        courses
+    })
+}
 
 const create = async (req, res) => {
     console.log(req.body);
+    const nameCourse = req.body.nameCourse
+
     try {
-        const destreza = await Destreza.create({
-            nameSkill: req.body.nameSkill
+        const course = await Course.create({
+            nameCourse
         })
-        res.json(destreza)
+        res.json(course)
     } catch (error) {
         throw new Error(error)
     }
 
-}
-
-const index = async (req, res) => {
-    const destrezas = await Destreza.findAll()
-    res.json({
-        destrezas: destrezas
-    })
 }
 
 module.exports = {

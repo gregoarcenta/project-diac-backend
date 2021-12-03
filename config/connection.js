@@ -15,14 +15,14 @@ const db = new Sequelize(dbName, dbUser, dbPass, {
 const connect = async () => {
     try {
         await db.authenticate();
-        console.log('Connection has been established successfully.');
+        console.log('Se ha conectado correctamente a la base de datos');
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        console.error('Error al conectarse a la base de datos', error);
     }
 }
 const syncTables = async () => {
     try {
-        await db.sync()
+        await db.sync({ force: false })
         console.log(`Tablas sincronizadas`);
     } catch (error) {
         throw new Error(error)
