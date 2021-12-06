@@ -1,25 +1,23 @@
-const { DataTypes } = require("sequelize");
-const { db } = require('../config/connection');
-const { Course } = require("./Course");
+const { DataTypes, Model } = require("sequelize");
+const { db } = require('../db/connection');
 
+class Objective extends Model { }
 
-const Objective = db.define('Objective', {
+Objective.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    courseId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     nameObjective: {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    sequelize: db,
+    modelName: 'Objective',
+    timestamps: false
 })
 
-module.exports = {
-    Objective
-}
+module.exports = Objective

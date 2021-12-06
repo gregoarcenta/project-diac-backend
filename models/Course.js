@@ -1,12 +1,11 @@
-const { DataTypes } = require("sequelize");
-const { db } = require('../config/connection');
-const { Objective } = require("./Objective");
-const { Destreza } = require("./Destreza");
+const { DataTypes, Model } = require("sequelize");
+const { db } = require('../db/connection');
+const Destreza = require("./Destreza");
+const Objective = require("./Objective");
 
+class Course extends Model { }
 
-
-
-const Course = db.define('Course', {
+Course.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -17,15 +16,10 @@ const Course = db.define('Course', {
         type: DataTypes.STRING,
         allowNull: false
     }
-})
+}, {
+    sequelize: db,
+    modelName: 'Course',
+    timestamps: false
+});
 
-Course.hasMany(Destreza, {
-    foreignKey: 'courseId'
-})
-Course.hasMany(Objective, {
-    foreignKey: 'courseId'
-})
-
-module.exports = {
-    Course
-}
+module.exports = Course

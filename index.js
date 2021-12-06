@@ -6,7 +6,8 @@ require('dotenv').config()
 
 
 //Import connections Database
-const { connect, syncTables } = require('./config/connection')
+const { connect, syncTables } = require('./db/connection')
+require('./db/associations')
 
 //Import Routes
 const course = require('./routes/course')

@@ -1,21 +1,14 @@
-const { Destreza } = require('../models/Destreza.js')
+const Destreza = require('../models/Destreza.js')
 
-const index = async (req, res) => {
-    const destrezas = await Destreza.findAll()
-    res.json({
-        destrezas
-    })
-}
-
+//Crea una destraza de una materia
 const create = async (req, res) => {
-    console.log(req.body);
     const nameDestreza = req.body.nameDestreza
-    const courseId = req.body.courseId
+    const CourseId = req.params.id
 
     try {
         const destreza = await Destreza.create({
             nameDestreza,
-            courseId
+            CourseId
         })
         res.json(destreza)
     } catch (error) {
@@ -23,7 +16,43 @@ const create = async (req, res) => {
     }
 }
 
+//Actualiza una destreza de la materia que se envia como parametro
+const update = async (req, res) => {
+    const nameDestreza = req.body.nameDestreza
+    const id = req.params.id
+
+    try {
+        const destreza = await Destreza.findOne({ where: { id } })
+        const newDestreza = await destreza.update({
+            nameDestreza,
+        })
+
+        res.json(newDestreza)
+
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+
+//Elimina una destreza
+const destroy = async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const destreza = await Destreza.findOne({ where: { id } })
+        const destrezaDelete = await destreza.destroy()
+
+        res.json(destrezaDelete)
+
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+
 module.exports = {
     create,
-    index
+    update,
+    destroy
 }

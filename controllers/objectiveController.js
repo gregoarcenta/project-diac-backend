@@ -1,23 +1,50 @@
-const { Objective } = require('../models/Objective')
+const Objective = require('../models/Objective.js')
 
-const index = async (req, res) => {
-    const objectives = await Objective.findAll()
-    res.json({
-        objectives
-    })
-}
-
+//Crea un objetivo de una materia
 const create = async (req, res) => {
-    console.log(req.body);
-    const nameObjective = req.body.nameObjective;
-    const courseId = req.body.courseId;
+    const nameObjective = req.body.nameObjective
+    const CourseId = req.params.id
 
     try {
         const objective = await Objective.create({
             nameObjective,
-            courseId
+            CourseId
         })
         res.json(objective)
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+//Actualiza un objetivo de la materia que se envia como parametro
+const update = async (req, res) => {
+    const nameObjective = req.body.nameObjective
+    const id = req.params.id
+
+    try {
+        const objective = await Objective.findOne({ where: { id } })
+        const newObjective = await objective.update({
+            nameObjective,
+        })
+
+        res.json(newObjective)
+
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+
+//Elimina un objetivo
+const destroy = async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const objective = await Objective.findOne({ where: { id } })
+        const objectiveDelete = await objective.destroy()
+
+        res.json(objectiveDelete)
+
     } catch (error) {
         throw new Error(error)
     }
@@ -26,5 +53,6 @@ const create = async (req, res) => {
 
 module.exports = {
     create,
-    index
+    update,
+    destroy
 }

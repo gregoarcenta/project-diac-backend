@@ -22,7 +22,7 @@ const connect = async () => {
 }
 const syncTables = async () => {
     try {
-        await db.sync()
+        await db.sync({ force: true })
         console.log(`Tablas sincronizadas`);
     } catch (error) {
         throw new Error(error)
