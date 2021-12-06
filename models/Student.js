@@ -63,7 +63,7 @@ Student.init({
         allowNull: false
     },
     phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     course: {
@@ -75,7 +75,7 @@ Student.init({
         allowNull: false
     },
     schoolYear: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {

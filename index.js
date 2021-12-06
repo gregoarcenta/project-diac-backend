@@ -11,6 +11,8 @@ require('./db/associations')
 
 //Import Routes
 const course = require('./routes/course')
+const student = require('./routes/student')
+
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -28,6 +30,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 //Routes
 app.use('/course', course)
+app.use('/student', student)
 
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}!`)

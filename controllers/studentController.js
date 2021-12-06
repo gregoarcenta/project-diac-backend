@@ -1,13 +1,10 @@
-const Course = require('../models/Course')
-const Destreza = require('../models/Destreza')
-const Objective = require('../models/Objective')
 const Student = require('../models/Student')
 
 const index = async (req, res) => {
     try {
-        const courses = await Course.findAll({ include: [Destreza, Objective] })
+        const students = await Student.findAll()
         res.json({
-            courses
+            students
         })
     } catch (error) {
         throw new Error(error)
@@ -16,14 +13,33 @@ const index = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    console.log(req.body);
-    const nameCourse = req.body.nameCourse
-
     try {
-        const course = await Course.create({
-            nameCourse
-        })
-        res.json(course)
+        const student = await Student.create({ ...req.body })
+        res.json(student)
+    } catch (error) {
+        res.json(error)
+        throw new Error(error)
+    }
+}
+
+const update = async (req, res) => {
+    const id = req.params.id
+    try {
+        const student = await Student.findOne({ where: { id } })
+        const newStudent = await student.update({ ...req.body })
+        res.json(newStudent)
+    } catch (error) {
+        throw new Error(error)
+    }
+
+}
+
+const destroy = async (req, res) => {
+    const id = req.params.id
+    try {
+        const student = await Student.findOne({ where: { id } })
+        const studentDelete = await student.destroy()
+        res.json(studentDelete)
     } catch (error) {
         throw new Error(error)
     }
@@ -32,5 +48,7 @@ const create = async (req, res) => {
 
 module.exports = {
     create,
-    index
+    index,
+    update,
+    destroy
 }
