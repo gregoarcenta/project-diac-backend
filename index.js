@@ -16,8 +16,6 @@ const teacher = require('./routes/teacher')
 const institution = require('./routes/institution')
 const curricular = require('./routes/curricular')
 
-
-
 const app = express()
 const port = process.env.PORT || 3000
 
