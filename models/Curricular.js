@@ -13,6 +13,66 @@ Curricular.init({
     duration: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    infoPedagogica: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    developData: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    familyBack: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    historySchool: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    styleLearning: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    typeIntelligence: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    dataContextEducation: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    dataContextFamily: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    dataContextSocial: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    identificationEducationalNeed: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    adaptationAccessCurriculum: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    specializedIntExt: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    methodology: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    resourse: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    resultFinal: {
+        type: DataTypes.TEXT,
+        allowNull: false
     }
 }, {
     sequelize: db,
