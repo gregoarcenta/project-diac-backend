@@ -14,6 +14,8 @@ const course = require('./routes/course')
 const student = require('./routes/student')
 const teacher = require('./routes/teacher')
 const institution = require('./routes/institution')
+const curricular = require('./routes/curricular')
+
 
 
 const app = express()
@@ -35,6 +37,7 @@ app.use('/course', course)
 app.use('/student', student)
 app.use('/teacher', teacher)
 app.use('/institution', institution)
+app.use('/doc-curricular', curricular)
 
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}!`)

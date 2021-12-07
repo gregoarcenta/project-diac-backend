@@ -1,23 +1,22 @@
 const { DataTypes, Model } = require("sequelize");
 const { db } = require('../db/connection');
 
-class Course extends Model { }
+class Curricular extends Model { }
 
-Course.init({
+Curricular.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    nameCourse: {
+    duration: {
         type: DataTypes.STRING,
         allowNull: false
     }
 }, {
     sequelize: db,
-    modelName: 'Course',
-    timestamps: false
+    modelName: 'Curricular',
 });
 
-module.exports = Course
+module.exports = Curricular
