@@ -20,6 +20,8 @@ const institution = require('./routes/institution')
 const curricular = require('./routes/curricular')
 const sessions = require('./routes/sessions')
 const users = require('./routes/users')
+const { notFound, errorHandler } = require('./middleware/errorMiddleware')
+
 
 
 const app = express()
@@ -49,6 +51,8 @@ app.use('/student', student)
 app.use('/teacher', teacher)
 app.use('/institution', institution)
 app.use('/doc-curricular', curricular)
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}!`)

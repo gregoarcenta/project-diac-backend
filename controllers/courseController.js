@@ -17,7 +17,6 @@ const index = async (req, res) => {
 
 //Crea una materia con sus destrezas y objetivos
 const create = async (req, res) => {
-    console.log(req.body);
     const nameCourse = req.body.nameCourse
 
     try {
