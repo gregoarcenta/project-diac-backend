@@ -5,6 +5,8 @@ const Objective = require("../models/Objective");
 const Teacher = require("../models/Teacher");
 const Student = require("../models/Student");
 const Institution = require("../models/Institution");
+const User = require("../models/User");
+const Role = require("../models/Role");
 
 
 //Una materia tiene muchas destrezas y objetivos
@@ -33,3 +35,6 @@ Curricular.belongsToMany(Course, { through: 'curricularCourses' })
 //Losd Docentes pueden estar en muchos documentos y los documentos tiene varios docentes 
 Teacher.belongsToMany(Curricular, { through: 'curricularTeachers' })
 Curricular.belongsToMany(Teacher, { through: 'curricularTeachers' })
+
+Role.hasMany(User)
+User.belongsTo(Role)
