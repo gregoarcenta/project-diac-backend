@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, QueryTypes } = require('sequelize');
 
 require('dotenv').config()
 
@@ -23,8 +23,14 @@ const connect = async () => {
 }
 const syncTables = async () => {
     try {
-        await db.sync()
+        await db.sync();
         console.log(`Tablas sincronizadas`);
+        const roles = await db.query("select * from `roles`", { type: QueryTypes.SELECT })
+        if (roles.length === 0) {
+            await db.query("INSERT INTO `roles`(`id`, `nameRol`) VALUES (1,'Admin')", { type: QueryTypes.INSERT });
+            await db.query("INSERT INTO `roles`(`id`, `nameRol`) VALUES (2,'Docente')", { type: QueryTypes.INSERT });
+            console.log(`Roles Insertados`);
+        }
     } catch (error) {
         throw new Error(error)
     }
