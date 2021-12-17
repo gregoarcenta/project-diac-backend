@@ -38,3 +38,6 @@ Curricular.belongsToMany(Teacher, { through: 'curricularTeachers' })
 
 Role.hasMany(User)
 User.belongsTo(Role)
+
+Teacher.hasMany(User)
+User.belongsTo(Teacher)

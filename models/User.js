@@ -4,7 +4,7 @@ const { db } = require('../db/connection');
 class User extends Model { }
 
 User.init({
-    email: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true

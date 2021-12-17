@@ -21,6 +21,10 @@ Teacher.init({
     edad: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     sequelize: db,
