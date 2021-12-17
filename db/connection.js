@@ -1,4 +1,5 @@
 const { Sequelize, QueryTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 require('dotenv').config()
 
@@ -30,6 +31,12 @@ const syncTables = async () => {
             await db.query("INSERT INTO `roles`(`id`, `nameRol`) VALUES (1,'Admin')", { type: QueryTypes.INSERT });
             await db.query("INSERT INTO `roles`(`id`, `nameRol`) VALUES (2,'Docente')", { type: QueryTypes.INSERT });
             console.log(`Roles Insertados`);
+        }
+        const usuario = await db.query("select * from `users`", { type: QueryTypes.SELECT })
+        if (usuario.length === 0) {
+            const hash = await bcrypt.hash('admin', 10,)
+            await db.query("INSERT INTO `users`(`id`, `username`, `password`, `RoleId`) VALUES (1,'admin',:password,1)", { replacements: { password: hash }, type: QueryTypes.INSERT });
+            console.log(`Usuario Admin Insertado`);
         }
     } catch (error) {
         throw new Error(error)
