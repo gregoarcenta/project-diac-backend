@@ -36,6 +36,7 @@ Curricular.belongsToMany(Course, { through: 'curricularCourses' })
 Teacher.belongsToMany(Curricular, { through: 'curricularTeachers' })
 Curricular.belongsToMany(Teacher, { through: 'curricularTeachers' })
 
+//relaciones con usuarios con docentes y roles
 Role.hasMany(User)
 User.belongsTo(Role)
 
