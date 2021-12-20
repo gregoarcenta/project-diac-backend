@@ -8,7 +8,7 @@ exports.errorHandler = (error, reg, res, next) => {
     res.status(statusCode)
     res.json({
         status: statusCode,
-        nessage: error.message,
+        message: error.message,
         stack: process.env.NODE_ENV === 'production' ? ":'(" : error.stack
     })
 }
