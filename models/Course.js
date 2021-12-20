@@ -19,5 +19,10 @@ Course.init({
     modelName: 'Course',
     timestamps: false
 });
+Course.isExitstCourse = async (nameCourse) => {
+    const course = await Course.findOne({ where: { nameCourse } })
+    if (course) return true
+    return false
+}
 
 module.exports = Course

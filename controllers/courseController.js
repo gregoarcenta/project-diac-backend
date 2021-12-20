@@ -16,20 +16,26 @@ const index = async (req, res) => {
 }
 
 //Crea una materia con sus destrezas y objetivos
-const create = async (req, res) => {
+const create = async (req, res, next) => {
     const nameCourse = req.body.nameCourse
 
     try {
-        const course = await Course.create({
-            nameCourse,
-            Destrezas: [...req.body.destrezas],
-            Objectives: [...req.body.objectives]
-        }, { include: [Destreza, Objective] })
+        const existe = await Course.isExitstCourse(nameCourse.trim())
+        if (!existe) {
+            const course = await Course.create({
+                nameCourse: nameCourse.trim(),
+                Destrezas: [...req.body.destrezas],
+                Objectives: [...req.body.objectives]
+            }, { include: [Destreza, Objective] })
 
-        res.json(course)
+            res.json(course)
+        } else {
+            throw new Error('this course already exists')
+        }
+
 
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 
 }
