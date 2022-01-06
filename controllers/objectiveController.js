@@ -1,18 +1,29 @@
 const Objective = require('../models/Objective.js')
+const { QueryTypes } = require('sequelize');
+const { db, } = require('../db/connection')
+
 
 //Crea un objetivo de una materia
-const create = async (req, res) => {
-    const nameObjective = req.body.nameObjective
+const create = async (req, res, next) => {
     const CourseId = req.params.id
-
+    let templateQuery = "INSERT INTO `objectives`(`nameObjective`, `CourseId`) VALUES "
     try {
-        const objective = await Objective.create({
-            nameObjective,
-            CourseId
+        req.body.objectives.forEach(async (objective, index) => {
+            if (index === req.body.objectives.length - 1) {
+                templateQuery += `('${objective.nameObjective}', ${CourseId})`
+                return
+            }
+            templateQuery += `('${objective.nameObjective}', ${CourseId}),`
+
+        });
+        const objectives = await db.query(templateQuery, { type: QueryTypes.INSERT });
+        res.json({
+            'status': res.statusCode,
+            'response': 'Ok',
+            objectives
         })
-        res.json(objective)
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 }
 

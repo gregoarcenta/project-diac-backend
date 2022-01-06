@@ -1,18 +1,29 @@
 const Destreza = require('../models/Destreza.js')
+const { QueryTypes } = require('sequelize');
+const { db } = require('../db/connection');
+
 
 //Crea una destraza de una materia
-const create = async (req, res) => {
-    const nameDestreza = req.body.nameDestreza
+const create = async (req, res, next) => {
     const CourseId = req.params.id
-
+    let templateQuery = "INSERT INTO `destrezas`(`nameDestreza`, `CourseId`) VALUES "
     try {
-        const destreza = await Destreza.create({
-            nameDestreza,
-            CourseId
+        req.body.destrezas.forEach(async (destreza, index) => {
+            if (index === req.body.destrezas.length - 1) {
+                templateQuery += `('${destreza.nameDestreza}', ${CourseId})`
+                return
+            }
+            templateQuery += `('${destreza.nameDestreza}', ${CourseId}),`
+
+        });
+        const destrezas = await db.query(templateQuery, { type: QueryTypes.INSERT });
+        res.json({
+            'status': res.statusCode,
+            'response': 'Ok',
+            destrezas
         })
-        res.json(destreza)
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 }
 
