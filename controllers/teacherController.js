@@ -13,11 +13,15 @@ const index = async (req, res, next) => {
 
 }
 
-const create = async (req, res, error) => {
+const create = async (req, res, next) => {
     const CourseId = req.body.courseId
     try {
-        const teacher = await Teacher.create({ ...req.body, CourseId })
-        res.json(teacher)
+        const email = await Teacher.findOne({ where: { email: req.body.email } })
+        if (!email) {
+            const teacher = await Teacher.create({ ...req.body, CourseId })
+            res.json(teacher)
+        }
+        throw new Error("El email ya existe!")
     } catch (error) {
         next(error)
     }

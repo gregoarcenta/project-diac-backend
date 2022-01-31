@@ -3,7 +3,7 @@ exports.notFound = (req, res, next) => {
     res.status(404)
     next(error)
 }
-exports.errorHandler = (error, reg, res, next) => {
+exports.errorHandler = (error, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode)
     res.json({
