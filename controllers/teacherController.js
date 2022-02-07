@@ -29,9 +29,10 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     const id = req.params.id
+    const CourseId = req.body.courseId
     try {
         const teacher = await Teacher.findOne({ where: { id } })
-        const newTeacher = await teacher.update({ ...req.body })
+        const newTeacher = await teacher.update({ ...req.body, CourseId })
         res.json(newTeacher)
     } catch (error) {
         next(error)
