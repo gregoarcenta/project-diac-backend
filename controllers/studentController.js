@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Student = require('../models/Student')
 
 const index = async (req, res, next) => {
@@ -5,6 +6,48 @@ const index = async (req, res, next) => {
         const students = await Student.findAll()
         res.json({
             students
+        })
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+const findById = async (req, res, next) => {
+    const id = req.params.id
+    try {
+        const student = await Student.findOne({ where: { id } })
+        res.json({
+            student
+        })
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+const filterByNameAndLastName = async (req, res, next) => {
+    const nombre = req.query.nombre || ''
+    const apellido = req.query.apellido || ''
+    try {
+        const student = await Student.findAll({
+            where: {
+                [Op.and]: [
+                    {
+                        nameStudent: {
+                            [Op.substring]: nombre,
+                        }
+                    },
+                    {
+                        lastNameStudent: {
+                            [Op.substring]: apellido,
+                        }
+                    }
+                ]
+            }
+        })
+        res.json({
+            student
         })
     } catch (error) {
         next(error)
@@ -48,6 +91,8 @@ const destroy = async (req, res, next) => {
 module.exports = {
     create,
     index,
+    findById,
+    filterByNameAndLastName,
     update,
     destroy
 }
