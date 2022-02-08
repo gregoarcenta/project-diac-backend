@@ -12,6 +12,26 @@ const index = async (req, res) => {
 
 }
 
+const filterByName = async (req, res, next) => {
+    const nombre = req.query.nombre || ''
+    try {
+        const institutions = await Institution.findAll({
+            where: {
+                nameInstitution: {
+                    [Op.substring]: nombre,
+                }
+            }
+        })
+        res.json({
+            institutions
+        })
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+
 const create = async (req, res) => {
     try {
         const institution = await Institution.create({ ...req.body })
@@ -49,6 +69,7 @@ const destroy = async (req, res) => {
 module.exports = {
     create,
     index,
+    filterByName,
     update,
     destroy
 }

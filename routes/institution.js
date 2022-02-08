@@ -7,6 +7,9 @@ router.route('/')
     .get(institutionController.index)
     .post(institutionController.create)
 
+router.route('/filter')
+    .get(institutionController.filterByName)
+
 router.route('/:id')
     .put(institutionController.update)
     .delete(institutionController.destroy)
