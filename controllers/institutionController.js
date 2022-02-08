@@ -1,4 +1,5 @@
 const Institution = require('../models/Institution')
+const { Op } = require('sequelize');
 
 const index = async (req, res) => {
     try {
