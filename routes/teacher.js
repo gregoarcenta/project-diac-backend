@@ -8,7 +8,7 @@ router.route('/')
     .post(teacherController.create)
 
 router.route('/filter/courses')
-    .get(teacherController.filterByCourse)
+    .post(teacherController.filterByCourse)
 
 router.route('/:id')
     .put(teacherController.update)
