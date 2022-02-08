@@ -1,5 +1,6 @@
 const Course = require('../models/Course')
 const Teacher = require('../models/Teacher')
+const { Op } = require('sequelize');
 
 const index = async (req, res, next) => {
     try {
@@ -10,8 +11,26 @@ const index = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-
 }
+
+const filterByCourse = async (req, res, next) => {
+    const courses = [...req.body.courses]
+    try {
+        const teachers = await Teacher.findAll({
+            where: {
+                CourseId: {
+                    [Op.in]: courses,
+                }
+            }
+        })
+        res.json({
+            teachers
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 const create = async (req, res, next) => {
     const CourseId = req.body.courseId
@@ -55,6 +74,7 @@ const destroy = async (req, res, next) => {
 module.exports = {
     create,
     index,
+    filterByCourse,
     update,
     destroy
 }
