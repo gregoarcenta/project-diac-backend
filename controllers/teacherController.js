@@ -21,7 +21,8 @@ const filterByCourse = async (req, res, next) => {
                 CourseId: {
                     [Op.in]: courses,
                 }
-            }
+            },
+            include: [Course]
         })
         res.json({
             teachers
