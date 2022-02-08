@@ -16,9 +16,9 @@ const index = async (req, res, next) => {
 const findById = async (req, res, next) => {
     const id = req.params.id
     try {
-        const student = await Student.findOne({ where: { id } })
+        const students = await Student.findOne({ where: { id } })
         res.json({
-            student
+            students
         })
     } catch (error) {
         next(error)
@@ -30,7 +30,7 @@ const filterByNameAndLastName = async (req, res, next) => {
     const nombre = req.query.nombre || ''
     const apellido = req.query.apellido || ''
     try {
-        const student = await Student.findAll({
+        const students = await Student.findAll({
             where: {
                 [Op.and]: [
                     {
@@ -47,7 +47,7 @@ const filterByNameAndLastName = async (req, res, next) => {
             }
         })
         res.json({
-            student
+            students
         })
     } catch (error) {
         next(error)
