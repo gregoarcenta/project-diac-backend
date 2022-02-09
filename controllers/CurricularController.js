@@ -2,14 +2,16 @@ const { Op } = require('sequelize')
 
 const Course = require('../models/Course')
 const Curricular = require('../models/Curricular')
+const Destreza = require('../models/Destreza')
 const Institution = require('../models/Institution')
+const Objective = require('../models/Objective')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 
 
 const index = async (req, res, next) => {
     try {
-        const docs = await Curricular.findAll({ include: [Student, Course, Institution, Teacher] })
+        const docs = await Curricular.findAll({ include: [Student, Course, Institution, Teacher, Destreza, Objective] })
         res.json({
             docs
         })
