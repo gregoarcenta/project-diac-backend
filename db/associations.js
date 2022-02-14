@@ -7,8 +7,10 @@ const Student = require("../models/Student");
 const Institution = require("../models/Institution");
 const User = require("../models/User");
 const Role = require("../models/Role");
+const DestrezaCurricular = require("../models/DestrezaCurricular");
+const ObjectiveCurricular = require("../models/ObjectiveCurricular");
 
-
+/***Asociaciones con el modelo course con sus destrezas y objetivos***/
 //Una materia tiene muchas destrezas y objetivos
 Course.hasMany(Destreza)
 Course.hasMany(Objective)
@@ -16,9 +18,19 @@ Course.hasMany(Objective)
 Objective.belongsTo(Course)
 Destreza.belongsTo(Course)
 
+/***Asociaciones con el modelo Docentes y roles***/
+//relaciones con usuarios con docentes y roles
+Role.hasMany(User)
+User.belongsTo(Role)
+
+Teacher.hasMany(User)
+User.belongsTo(Teacher)
+
 //Una Materia solo puede ser impartida por un docente y un docentes solo imparte una materia
 Course.hasOne(Teacher)
 Teacher.belongsTo(Course)
+
+/***Asociaciones con el modelo Curricular***/
 
 //Una estudiente solo puede ser tener por un documento curricular y un documento solo tiene un estudiante
 Student.hasOne(Curricular)
@@ -28,17 +40,20 @@ Curricular.belongsTo(Student)
 Institution.hasMany(Curricular)
 Curricular.belongsTo(Institution)
 
+//Los Docentes pueden estar en muchos documentos y los documentos tiene varios docentes 
+Teacher.belongsToMany(Curricular, { through: 'curricular_teachers' })
+Curricular.belongsToMany(Teacher, { through: 'curricular_teachers' })
+
 //Un documento curricular tiene muchas materias varias materias pueden estar en muchos documentos
-Course.belongsToMany(Curricular, { through: 'curricularCourses' })
-Curricular.belongsToMany(Course, { through: 'curricularCourses' })
+Course.belongsToMany(Curricular, { through: 'curricular_courses' })
+Curricular.belongsToMany(Course, { through: 'curricular_courses' })
 
-//Losd Docentes pueden estar en muchos documentos y los documentos tiene varios docentes 
-Teacher.belongsToMany(Curricular, { through: 'curricularTeachers' })
-Curricular.belongsToMany(Teacher, { through: 'curricularTeachers' })
+//Un documento curricular tiene muchas destrezas, varias destrezas pueden estar en muchos documentos
+DestrezaCurricular.belongsToMany(Curricular, { through: 'curricular_destrezas' })
+Curricular.belongsToMany(DestrezaCurricular, { through: 'curricular_destrezas' })
 
-//relaciones con usuarios con docentes y roles
-Role.hasMany(User)
-User.belongsTo(Role)
+//Un documento curricular tiene muchas Objetivos, varias Objetivos pueden estar en muchos documentos
+ObjectiveCurricular.belongsToMany(Curricular, { through: 'curricular_objectives' })
+Curricular.belongsToMany(ObjectiveCurricular, { through: 'curricular_objectives' })
 
-Teacher.hasMany(User)
-User.belongsTo(Teacher)
+

@@ -3,13 +3,16 @@ const { Op } = require('sequelize')
 const Course = require('../models/Course')
 const Curricular = require('../models/Curricular')
 const Institution = require('../models/Institution')
+const DestrezaCurricular = require('../models/DestrezaCurricular')
+const ObjectiveCurricular = require('../models/ObjectiveCurricular')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 
 
+
 const index = async (req, res, next) => {
     try {
-        const docs = await Curricular.findAll({ include: [Student, Course, Institution, Teacher] })
+        const docs = await Curricular.findAll({ include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular] })
         res.json({
             docs
         })
@@ -19,18 +22,51 @@ const index = async (req, res, next) => {
 
 }
 
+const findById = async (req, res, next) => {
+    const id = req.params.id
+    try {
+        const docs = await Curricular.findOne({ where: { id }, include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular] })
+        res.json({
+            docs
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 const create = async (req, res, next) => {
-    const StudentId = req.body.studentId
-    const InstitutionId = req.body.institutionId
     const coursesArray = [...req.body.courses]
     const teachersArray = [...req.body.teachers]
+    const destrezasArray = [...req.body.destrezas]
+    const objectivesArray = [...req.body.objectives]
+
     try {
+        //Busca los cursos y docentes seleccionados por el ID y los guarda en variables
         const courses = await Course.findAll({ where: { id: { [Op.in]: coursesArray } } })
         const teachers = await Teacher.findAll({ where: { id: { [Op.in]: teachersArray } } })
-        const doc = await Curricular.create({ ...req.body, StudentId, InstitutionId })
+
+        //Inserta el docuemento curricular
+        const doc = await Curricular.create({ ...req.body })
+
+        //Relaciona el los cursos y los docentes seleccionados al documento curricular
         const docWithCourses = await doc.addCourse(courses)
         const docWithTeacher = await doc.addTeacher(teachers)
+
+        //inserta las destrezas en el modelo DestrezaCurricular y luego las relaciona al documento curricular creado
+        destrezasArray.forEach(async destreza => {
+            const newDestreza = await DestrezaCurricular.create(destreza)
+            await doc.addDestrezaCurricular(newDestreza)
+        })
+
+        //inserta los objetivos en el modelo ObjectiveCurricular y luego las relaciona al documento curricular creado
+        objectivesArray.forEach(async objective => {
+            const newObjective = await ObjectiveCurricular.create(objective)
+            await doc.addObjectiveCurricular(newObjective)
+        })
+
+        //respuesta
         res.json({ doc, docWithCourses, docWithTeacher })
+
     } catch (error) {
         next(error)
     }
@@ -63,6 +99,7 @@ const destroy = async (req, res, next) => {
 module.exports = {
     create,
     index,
+    findById,
     update,
     destroy
 }

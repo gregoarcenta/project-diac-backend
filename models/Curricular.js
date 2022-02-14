@@ -62,6 +62,14 @@ Curricular.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    toDo: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    howToDo: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
     methodology: {
         type: DataTypes.TEXT,
         allowNull: false
