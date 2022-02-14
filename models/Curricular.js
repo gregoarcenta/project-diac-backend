@@ -70,10 +70,6 @@ Curricular.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    methodology: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
     resourse: {
         type: DataTypes.TEXT,
         allowNull: false

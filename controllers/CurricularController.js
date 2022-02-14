@@ -7,12 +7,14 @@ const DestrezaCurricular = require('../models/DestrezaCurricular')
 const ObjectiveCurricular = require('../models/ObjectiveCurricular')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
+const MetodologiaCurricular = require('../models/MetodologiaCurricular')
+
 
 
 
 const index = async (req, res, next) => {
     try {
-        const docs = await Curricular.findAll({ include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular] })
+        const docs = await Curricular.findAll({ include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, MetodologiaCurricular] })
         res.json({
             docs
         })
@@ -25,7 +27,7 @@ const index = async (req, res, next) => {
 const findById = async (req, res, next) => {
     const id = req.params.id
     try {
-        const docs = await Curricular.findOne({ where: { id }, include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular] })
+        const docs = await Curricular.findOne({ where: { id }, include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, MetodologiaCurricular] })
         res.json({
             docs
         })
@@ -39,6 +41,7 @@ const create = async (req, res, next) => {
     const teachersArray = [...req.body.teachers]
     const destrezasArray = [...req.body.destrezas]
     const objectivesArray = [...req.body.objectives]
+    const metodologiasArray = [...req.body.metodologias]
 
     try {
         //Busca los cursos y docentes seleccionados por el ID y los guarda en variables
@@ -62,6 +65,12 @@ const create = async (req, res, next) => {
         objectivesArray.forEach(async objective => {
             const newObjective = await ObjectiveCurricular.create(objective)
             await doc.addObjectiveCurricular(newObjective)
+        })
+
+        //inserta las metodologias en el modelo ObjectiveCurricular y luego las relaciona al documento curricular creado
+        metodologiasArray.forEach(async metodologia => {
+            const newMetodologia = await MetodologiaCurricular.create(metodologia)
+            await doc.addMetodologiaCurricular(newMetodologia)
         })
 
         //respuesta
