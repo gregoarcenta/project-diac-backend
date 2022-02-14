@@ -8,13 +8,14 @@ const ObjectiveCurricular = require('../models/ObjectiveCurricular')
 const Student = require('../models/Student')
 const Teacher = require('../models/Teacher')
 const MetodologiaCurricular = require('../models/MetodologiaCurricular')
+const CriteriaCurricular = require('../models/CriteriaCurricular')
 
 
 
 
 const index = async (req, res, next) => {
     try {
-        const docs = await Curricular.findAll({ include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, MetodologiaCurricular] })
+        const docs = await Curricular.findAll({ include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, CriteriaCurricular, MetodologiaCurricular] })
         res.json({
             docs
         })
@@ -27,7 +28,7 @@ const index = async (req, res, next) => {
 const findById = async (req, res, next) => {
     const id = req.params.id
     try {
-        const docs = await Curricular.findOne({ where: { id }, include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, MetodologiaCurricular] })
+        const docs = await Curricular.findOne({ where: { id }, include: [Student, Institution, Course, Teacher, DestrezaCurricular, ObjectiveCurricular, CriteriaCurricular, MetodologiaCurricular] })
         res.json({
             docs
         })
@@ -41,6 +42,7 @@ const create = async (req, res, next) => {
     const teachersArray = [...req.body.teachers]
     const destrezasArray = [...req.body.destrezas]
     const objectivesArray = [...req.body.objectives]
+    const criteriasArray = [...req.body.criterias]
     const metodologiasArray = [...req.body.metodologias]
 
     try {
@@ -67,7 +69,13 @@ const create = async (req, res, next) => {
             await doc.addObjectiveCurricular(newObjective)
         })
 
-        //inserta las metodologias en el modelo ObjectiveCurricular y luego las relaciona al documento curricular creado
+        //inserta los criterios de evaluacion en el modelo EvaluationCriteriaCurricular y luego las relaciona al documento curricular creado
+        criteriasArray.forEach(async criteria => {
+            const newCriteria = await CriteriaCurricular.create(criteria)
+            await doc.addCriteriaCurricular(newCriteria)
+        })
+
+        //inserta las metodologias en el modelo MetodologiaCurricular y luego las relaciona al documento curricular creado
         metodologiasArray.forEach(async metodologia => {
             const newMetodologia = await MetodologiaCurricular.create(metodologia)
             await doc.addMetodologiaCurricular(newMetodologia)

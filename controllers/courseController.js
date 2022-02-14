@@ -1,11 +1,12 @@
 const Course = require('../models/Course')
+const Criteria = require('../models/Criteria')
 const Destreza = require('../models/Destreza')
 const Objective = require('../models/Objective')
 
 //Recupera todas las materias con sus destrezas y objetivos
 const index = async (req, res) => {
     try {
-        const courses = await Course.findAll({ include: [Destreza, Objective] })
+        const courses = await Course.findAll({ include: [Destreza, Objective, Criteria] })
         res.json({
             courses
         })
