@@ -69,14 +69,6 @@ Curricular.init({
     howToDo: {
         type: DataTypes.TEXT,
         allowNull: false
-    },
-    resourse: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    resultFinal: {
-        type: DataTypes.TEXT,
-        allowNull: false
     }
 }, {
     sequelize: db,

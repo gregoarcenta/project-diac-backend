@@ -12,6 +12,8 @@ const DestrezaCurricular = require("../models/DestrezaCurricular");
 const ObjectiveCurricular = require("../models/ObjectiveCurricular");
 const MetodologiaCurricular = require("../models/MetodologiaCurricular");
 const CriteriaCurricular = require("../models/CriteriaCurricular");
+const ResourceCurricular = require("../models/ResourceCurricular");
+const ResultFinalCurricular = require("../models/ResultFinalCurricular");
 
 /***Asociaciones con el modelo course con sus destrezas y objetivos***/
 //Una materia tiene muchas destrezas, objetivos y criterios de evaluacion
@@ -45,6 +47,19 @@ CriteriaCurricular.belongsTo(Course)
 Course.hasMany(MetodologiaCurricular)
 //Un metodologias solo pertenece a una materia
 MetodologiaCurricular.belongsTo(Course)
+
+
+/***Asociaciones del modelo course con los recursos de asignaturas del documento curricular***/
+//Una materia tiene muchas recursos
+Course.hasMany(ResourceCurricular)
+//Un recursos solo pertenece a una materia
+ResourceCurricular.belongsTo(Course)
+
+/***Asociaciones del modelo course con los resultados finales de asignaturas del documento curricular***/
+//Una materia tiene muchas resultados finales
+Course.hasMany(ResultFinalCurricular)
+//Un resultado solo pertenece a una materia
+ResultFinalCurricular.belongsTo(Course)
 
 
 /***Asociaciones con el modelo Docentes y roles***/
@@ -92,5 +107,14 @@ Curricular.belongsToMany(CriteriaCurricular, { through: 'curricular_criteria' })
 //Un documento curricular tiene muchas Metodologias, varias Metodologias pueden estar en muchos documentos
 MetodologiaCurricular.belongsToMany(Curricular, { through: 'curricular_metodologia' })
 Curricular.belongsToMany(MetodologiaCurricular, { through: 'curricular_metodologia' })
+
+//Un documento curricular tiene muchas recursos, varias recursos pueden estar en muchos documentos
+ResourceCurricular.belongsToMany(Curricular, { through: 'curricular_resource' })
+Curricular.belongsToMany(ResourceCurricular, { through: 'curricular_resource' })
+
+//Un documento curricular tiene muchas resultados finales, varias resultados pueden estar en muchos documentos
+ResultFinalCurricular.belongsToMany(Curricular, { through: 'curricular_result' })
+Curricular.belongsToMany(ResultFinalCurricular, { through: 'curricular_result' })
+
 
 

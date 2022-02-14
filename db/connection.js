@@ -24,7 +24,7 @@ const connect = async () => {
 }
 const syncTables = async () => {
     try {
-        await db.sync({ force: true });
+        await db.sync();
         console.log(`Tablas sincronizadas`);
         const roles = await db.query("select * from `roles`", { type: QueryTypes.SELECT })
         if (roles.length === 0) {
