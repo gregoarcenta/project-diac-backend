@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(
     expressJwt({ secret: jwtSecret, algorithms: ['HS256'] })
-        .unless({ path: ['/user', '/login'] })
+        .unless({ path: ['/login'] })
 )
 
 //Routes

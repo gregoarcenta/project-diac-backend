@@ -40,8 +40,9 @@ const create = async (req, res, next) => {
         if (!email) {
             const teacher = await Teacher.create({ ...req.body, CourseId })
             res.json(teacher)
+        } else {
+            throw new Error("El email ya existe!")
         }
-        throw new Error("El email ya existe!")
     } catch (error) {
         next(error)
     }
