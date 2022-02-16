@@ -1,17 +1,20 @@
 const express = require('express')
 const teacherController = require('../controllers/teacherController')
+const authenticateAdmin = require('../middleware/authenticateAdmin')
+const findUser = require('../middleware/findUser')
+
 
 const router = express.Router()
 
 router.route('/')
     .get(teacherController.index)
-    .post(teacherController.create)
+    .post(findUser, authenticateAdmin, teacherController.create)
 
 router.route('/filter/courses')
     .post(teacherController.filterByCourse)
 
 router.route('/:id')
-    .put(teacherController.update)
-    .delete(teacherController.destroy)
+    .put(findUser, authenticateAdmin, teacherController.update)
+    .delete(findUser, authenticateAdmin, teacherController.destroy)
 
 module.exports = router

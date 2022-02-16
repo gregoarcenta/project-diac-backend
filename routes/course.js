@@ -3,6 +3,9 @@ const courseController = require('../controllers/courseController')
 const destrezaController = require('../controllers/destrezaController')
 const objectiveController = require('../controllers/objectiveController')
 const criteriaController = require('../controllers/criteriaController')
+const authenticateAdmin = require('../middleware/authenticateAdmin')
+const findUser = require('../middleware/findUser')
+
 
 
 const router = express.Router()
@@ -10,34 +13,34 @@ const router = express.Router()
 //Materias
 router.route('/')
     .get(courseController.index)
-    .post(courseController.create)
+    .post(findUser, authenticateAdmin, courseController.create)
 
 router.route('/:id')
-    .put(courseController.update)
-    .delete(courseController.destroy)
+    .put(findUser, authenticateAdmin, courseController.update)
+    .delete(findUser, authenticateAdmin, courseController.destroy)
 
 //detrezas
 router.route('/:id/destreza')
-    .post(destrezaController.create)
+    .post(findUser, authenticateAdmin, destrezaController.create)
 
 router.route('/destreza/:id')
-    .put(destrezaController.update)
-    .delete(destrezaController.destroy)
+    .put(findUser, authenticateAdmin, destrezaController.update)
+    .delete(findUser, authenticateAdmin, destrezaController.destroy)
 
 //Objetivos
 router.route('/:id/objective')
-    .post(objectiveController.create)
+    .post(findUser, authenticateAdmin, objectiveController.create)
 
 router.route('/objective/:id')
-    .put(objectiveController.update)
-    .delete(objectiveController.destroy)
+    .put(findUser, authenticateAdmin, objectiveController.update)
+    .delete(findUser, authenticateAdmin, objectiveController.destroy)
 
 //Criterios
 router.route('/:id/criteria')
-    .post(criteriaController.create)
+    .post(findUser, authenticateAdmin, criteriaController.create)
 
 router.route('/criteria/:id')
-    .put(criteriaController.update)
-    .delete(criteriaController.destroy)
+    .put(findUser, authenticateAdmin, criteriaController.update)
+    .delete(findUser, authenticateAdmin, criteriaController.destroy)
 
 module.exports = router
