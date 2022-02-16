@@ -28,38 +28,36 @@ const create = async (req, res, next) => {
 }
 
 //Actualiza una destreza de la materia que se envia como parametro
-const update = async (req, res) => {
+const update = async (req, res, next) => {
     const nameDestreza = req.body.nameDestreza
     const id = req.params.id
-
     try {
         const destreza = await Destreza.findOne({ where: { id } })
-        const newDestreza = await destreza.update({
-            nameDestreza,
-        })
-
-        res.json(newDestreza)
-
+        if (destreza) {
+            const newDestreza = await destreza.update({ nameDestreza })
+            res.json(newDestreza)
+        } else {
+            throw new Error('ERROR: No se puede actualizar esta destreza, no existe!')
+        }
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
-
 }
 
 //Elimina una destreza
-const destroy = async (req, res) => {
+const destroy = async (req, res, next) => {
     const id = req.params.id
-
     try {
         const destreza = await Destreza.findOne({ where: { id } })
-        const destrezaDelete = await destreza.destroy()
-
-        res.json(destrezaDelete)
-
+        if (destreza) {
+            const destrezaDelete = await destreza.destroy()
+            res.json(destrezaDelete)
+        } else {
+            throw new Error('ERROR: No se puede eliminar esta destreza, no existe!')
+        }
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
-
 }
 
 module.exports = {

@@ -28,36 +28,36 @@ const create = async (req, res, next) => {
 }
 
 //Actualiza un objetivo de la materia que se envia como parametro
-const update = async (req, res) => {
+const update = async (req, res, next) => {
     const nameObjective = req.body.nameObjective
     const id = req.params.id
-
     try {
         const objective = await Objective.findOne({ where: { id } })
-        const newObjective = await objective.update({
-            nameObjective,
-        })
-
-        res.json(newObjective)
-
+        if (objective) {
+            const newObjective = await objective.update({ nameObjective })
+            res.json(newObjective)
+        } else {
+            throw new Error('ERROR: No se puede actualizar este objetivo, no existe!')
+        }
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
-
 }
 
 //Elimina un objetivo
-const destroy = async (req, res) => {
+const destroy = async (req, res, next) => {
     const id = req.params.id
 
     try {
         const objective = await Objective.findOne({ where: { id } })
-        const objectiveDelete = await objective.destroy()
-
-        res.json(objectiveDelete)
-
+        if (objective) {
+            const objectiveDelete = await objective.destroy()
+            res.json(objectiveDelete)
+        } else {
+            throw new Error('ERROR: No se puede eliminar este objetivo, no existe!')
+        }
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 
 }

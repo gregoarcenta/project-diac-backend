@@ -1,14 +1,14 @@
 const Institution = require('../models/Institution')
 const { Op } = require('sequelize');
 
-const index = async (req, res) => {
+const index = async (req, res, next) => {
     try {
         const institutions = await Institution.findAll()
         res.json({
             institutions
         })
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 
 }
@@ -32,36 +32,35 @@ const filterByName = async (req, res, next) => {
 }
 
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
     try {
         const institution = await Institution.create({ ...req.body })
         res.json(institution)
     } catch (error) {
-        res.json(error)
-        throw new Error(error)
+        next(error)
     }
 }
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
     const id = req.params.id
     try {
         const institution = await Institution.findOne({ where: { id } })
         const newInstitution = await institution.update({ ...req.body })
         res.json(newInstitution)
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 
 }
 
-const destroy = async (req, res) => {
+const destroy = async (req, res, next) => {
     const id = req.params.id
     try {
         const institution = await Institution.findOne({ where: { id } })
         const institutionDelete = await institution.destroy()
         res.json(institutionDelete)
     } catch (error) {
-        throw new Error(error)
+        next(error)
     }
 
 }

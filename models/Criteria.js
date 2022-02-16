@@ -16,7 +16,7 @@ Criteria.init({
     }
 }, {
     sequelize: db,
-    modelName: 'Criteria',
+    modelName: 'criterio',
     timestamps: false
 });
 
