@@ -39,7 +39,8 @@ const create = async (req, res, next) => {
         const email = await Teacher.findOne({ where: { email: req.body.email } })
         if (!email) {
             const teacher = await Teacher.create({ ...req.body, CourseId })
-            res.json(teacher)
+            req.teacher = teacher
+            next()
         } else {
             throw new Error("El email ya existe!")
         }

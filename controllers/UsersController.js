@@ -15,17 +15,18 @@ async function find(req, res, next) {
     }
 }
 
-async function create(req, res) {
+async function create(req, res, next) {
     const username = req.body.username
     const password = req.body.password
     const RoleId = req.body.idRole
-    const TeacherId = req.body.idTeacher
+    const TeacherId = req.teacher.id
     try {
         const hash = await bcrypt.hash(password, 10,)
         const user = await User.create({ username, password: hash, RoleId, TeacherId })
-        res.status(200).json(user)
+        res.status(200).json({ teacher: req.teacher, user })
     } catch (error) {
-        res.status(422).json({ error })
+        res.status(422)
+        next(error)
     }
 }
 
