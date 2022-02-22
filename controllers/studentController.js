@@ -26,24 +26,14 @@ const findById = async (req, res, next) => {
 
 }
 
-const filterByNameAndLastName = async (req, res, next) => {
+const filterByFullName = async (req, res, next) => {
     const nombre = req.query.nombre || ''
-    const apellido = req.query.apellido || ''
     try {
         const students = await Student.findAll({
             where: {
-                [Op.and]: [
-                    {
-                        nameStudent: {
-                            [Op.substring]: nombre,
-                        }
-                    },
-                    {
-                        lastNameStudent: {
-                            [Op.substring]: apellido,
-                        }
-                    }
-                ]
+                fullName: {
+                    [Op.substring]: nombre,
+                }
             }
         })
         res.json({
@@ -56,8 +46,11 @@ const filterByNameAndLastName = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
+    const name = req.body.nameStudent
+    const lastName = req.body.lastNameStudent
+    const fullName = `${name} ${lastName}`
     try {
-        const student = await Student.create({ ...req.body })
+        const student = await Student.create({ ...req.body, fullName })
         res.json(student)
     } catch (error) {
         next(error)
@@ -92,7 +85,7 @@ module.exports = {
     create,
     index,
     findById,
-    filterByNameAndLastName,
+    filterByFullName,
     update,
     destroy
 }

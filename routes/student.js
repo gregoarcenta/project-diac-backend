@@ -8,7 +8,7 @@ router.route('/')
     .post(studentController.create)
 
 router.route('/filter')
-    .get(studentController.filterByNameAndLastName)
+    .get(studentController.filterByFullName)
 
 router.route('/:id')
     .get(studentController.findById)

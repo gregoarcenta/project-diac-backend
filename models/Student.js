@@ -18,6 +18,10 @@ Student.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    fullName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     edad: {
         type: DataTypes.INTEGER,
         allowNull: false
