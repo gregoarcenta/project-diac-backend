@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 const Course = require('../models/Course')
 const Teacher = require('../models/Teacher')
 const { Op } = require('sequelize');
@@ -34,16 +36,17 @@ const filterByCourse = async (req, res, next) => {
 
 
 const create = async (req, res, next) => {
+    const errors = validationResult(req);
     const CourseId = req.body.courseId
     try {
-        const email = await Teacher.findOne({ where: { email: req.body.email } })
-        if (!email) {
-            const teacher = await Teacher.create({ ...req.body, CourseId })
-            req.teacher = teacher
-            next()
-        } else {
-            throw new Error("El email ya existe!")
+        if (!errors.isEmpty()) {
+            res.status(400)
+            const err = errors.array({ onlyFirstError: true })[0]
+            throw new Error(err.msg)
         }
+        const teacher = await Teacher.create({ ...req.body, CourseId })
+        req.teacher = teacher
+        next()
     } catch (error) {
         next(error)
     }
@@ -59,7 +62,6 @@ const update = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-
 }
 
 const destroy = async (req, res, next) => {
@@ -71,7 +73,6 @@ const destroy = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-
 }
 
 module.exports = {

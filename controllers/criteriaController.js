@@ -2,7 +2,7 @@ const Criteria = require("../models/Criteria");
 const { QueryTypes } = require('sequelize');
 const { db } = require('../db/connection');
 
-//Crea una destraza de una materia
+//Crea un criterio de una materia
 const create = async (req, res, next) => {
     const CourseId = req.params.id
     let templateQuery = "INSERT INTO `criterios`(`nameCriteria`, `CourseId`) VALUES "
@@ -13,7 +13,6 @@ const create = async (req, res, next) => {
                 return
             }
             templateQuery += `('${criterio.nameCriteria}', ${CourseId}),`
-
         });
         const criterios = await db.query(templateQuery, { type: QueryTypes.INSERT });
         res.json({
@@ -26,7 +25,7 @@ const create = async (req, res, next) => {
     }
 }
 
-//Actualiza una destreza de la materia que se envia como parametro
+//Actualiza un criterio de la materia que se envia como parametro
 const update = async (req, res) => {
     const nameCriteria = req.body.nameCriteria
     const id = req.params.id
@@ -43,7 +42,7 @@ const update = async (req, res) => {
     }
 }
 
-//Elimina una destreza
+//Elimina un criterio
 const destroy = async (req, res) => {
     const id = req.params.id
     try {

@@ -114,7 +114,6 @@ const update = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-
 }
 
 const destroy = async (req, res, next) => {
@@ -126,7 +125,6 @@ const destroy = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-
 }
 
 module.exports = {
