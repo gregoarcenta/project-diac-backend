@@ -17,79 +17,75 @@ const ResultFinalCurricular = require("../models/ResultFinalCurricular");
 
 /***Asociaciones con el modelo course con sus destrezas y objetivos***/
 //Una materia tiene muchas destrezas, objetivos y criterios de evaluacion
-Course.hasMany(Destreza)
-Course.hasMany(Objective)
-Course.hasMany(Criteria)
+Course.hasMany(Destreza);
+Course.hasMany(Objective);
+Course.hasMany(Criteria);
 //Un objetivo solo pertenece a una materia
-Destreza.belongsTo(Course)
-Objective.belongsTo(Course)
-Criteria.belongsTo(Course)
-
+Destreza.belongsTo(Course);
+Objective.belongsTo(Course);
+Criteria.belongsTo(Course);
 
 /***Asociaciones con el modelo Docentes y roles***/
 //Un rolo puede ser parte de vario usuarios y un usuario solo le pertence a un rol
-Role.hasMany(User)
-User.belongsTo(Role)
+Role.hasMany(User);
+User.belongsTo(Role);
 //Un docente tiene solo un usuario y un usuario solo le pertence a un docente
-Teacher.hasOne(User)
-User.belongsTo(Teacher)
-
+Teacher.hasOne(User);
+User.belongsTo(Teacher);
 
 /***Asociaciones con el modelo Teacher y Course***/
 //Una Materia solo puede ser impartida por un docente y un docentes solo imparte una materia
-Course.hasMany(Teacher)
-Teacher.belongsTo(Course)
-
-
-/***Asociaciones del modelo course con los modelos usados en el documento curricular***/
-//Una materia tiene muchas destrezas, objetivos y criterios de evaluacion, etc
-Course.hasMany(DestrezaCurricular)
-Course.hasMany(ObjectiveCurricular)
-Course.hasMany(CriteriaCurricular)
-Course.hasMany(MetodologiaCurricular)
-Course.hasMany(ResourceCurricular)
-Course.hasMany(ResultFinalCurricular)
-//Estos modelos solo pertenece a una materia
-DestrezaCurricular.belongsTo(Course)
-ObjectiveCurricular.belongsTo(Course)
-CriteriaCurricular.belongsTo(Course)
-MetodologiaCurricular.belongsTo(Course)
-ResourceCurricular.belongsTo(Course)
-ResultFinalCurricular.belongsTo(Course)
+Course.hasMany(Teacher);
+Teacher.belongsTo(Course);
 
 /***Asociaciones del modelo course con los modelos usados en el documento curricular***/
 //Una materia tiene muchas destrezas, objetivos y criterios de evaluacion, etc
-Curricular.hasMany(DestrezaCurricular)
-Curricular.hasMany(ObjectiveCurricular)
-Curricular.hasMany(CriteriaCurricular)
-Curricular.hasMany(MetodologiaCurricular)
-Curricular.hasMany(ResourceCurricular)
-Curricular.hasMany(ResultFinalCurricular)
+Course.hasMany(DestrezaCurricular);
+Course.hasMany(ObjectiveCurricular);
+Course.hasMany(CriteriaCurricular);
+Course.hasMany(MetodologiaCurricular);
+Course.hasMany(ResourceCurricular);
+Course.hasMany(ResultFinalCurricular);
 //Estos modelos solo pertenece a una materia
-DestrezaCurricular.belongsTo(Curricular)
-ObjectiveCurricular.belongsTo(Curricular)
-CriteriaCurricular.belongsTo(Curricular)
-MetodologiaCurricular.belongsTo(Curricular)
-ResourceCurricular.belongsTo(Curricular)
-ResultFinalCurricular.belongsTo(Curricular)
+DestrezaCurricular.belongsTo(Course);
+ObjectiveCurricular.belongsTo(Course);
+CriteriaCurricular.belongsTo(Course);
+MetodologiaCurricular.belongsTo(Course);
+ResourceCurricular.belongsTo(Course);
+ResultFinalCurricular.belongsTo(Course);
 
+/***Asociaciones del modelo course con los modelos usados en el documento curricular***/
+//Una materia tiene muchas destrezas, objetivos y criterios de evaluacion, etc
+Curricular.hasMany(DestrezaCurricular);
+Curricular.hasMany(ObjectiveCurricular);
+Curricular.hasMany(CriteriaCurricular);
+Curricular.hasMany(MetodologiaCurricular);
+Curricular.hasMany(ResourceCurricular);
+Curricular.hasMany(ResultFinalCurricular);
+//Estos modelos solo pertenece a una materia
+DestrezaCurricular.belongsTo(Curricular);
+ObjectiveCurricular.belongsTo(Curricular);
+CriteriaCurricular.belongsTo(Curricular);
+MetodologiaCurricular.belongsTo(Curricular);
+ResourceCurricular.belongsTo(Curricular);
+ResultFinalCurricular.belongsTo(Curricular);
 
 /***Asociaciones con el modelo Curricular***/
 //Una estudiente solo puede ser tener por un documento curricular y un documento solo tiene un estudiante
-Student.hasOne(Curricular)
-Curricular.belongsTo(Student)
+Student.hasOne(Curricular);
+Curricular.belongsTo(Student);
 
 //Una institucion tiene muchos documentos curriculares y un documento solo tiene una institucion
-Institution.hasMany(Curricular)
-Curricular.belongsTo(Institution)
+Institution.hasMany(Curricular);
+Curricular.belongsTo(Institution);
 
-//Los Docentes pueden estar en muchos documentos y los documentos tiene varios docentes 
-Teacher.belongsToMany(Curricular, { through: 'curricular_teachers' })
-Curricular.belongsToMany(Teacher, { through: 'curricular_teachers' })
+//Los Docentes pueden estar en muchos documentos y los documentos tiene varios docentes
+Teacher.belongsToMany(Curricular, { through: "curricular_teachers" });
+Curricular.belongsToMany(Teacher, { through: "curricular_teachers" });
 
 //Un documento curricular tiene muchas materias varias materias pueden estar en muchos documentos
-Course.belongsToMany(Curricular, { through: 'curricular_courses' })
-Curricular.belongsToMany(Course, { through: 'curricular_courses' })
+Course.belongsToMany(Curricular, { through: "curricular_courses" });
+Curricular.belongsToMany(Course, { through: "curricular_courses" });
 
 /* //Un documento curricular tiene muchas destrezas, varias destrezas pueden estar en muchos documentos
 DestrezaCurricular.belongsToMany(Curricular, { through: 'curricular_destrezas' })
@@ -115,5 +111,3 @@ Curricular.belongsToMany(ResourceCurricular, { through: 'curricular_resource' })
 ResultFinalCurricular.belongsToMany(Curricular, { through: 'curricular_result' })
 Curricular.belongsToMany(ResultFinalCurricular, { through: 'curricular_result' })
  */
-
-
